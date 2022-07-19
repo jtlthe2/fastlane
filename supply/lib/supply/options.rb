@@ -40,6 +40,14 @@ module Supply
                                      verify_block: proc do |value|
                                                      UI.user_error!("Value must be one of '#{Supply::RELEASE_STATUS}'") unless Supply::ReleaseStatus::ALL.include?(value)
                                                    end),
+          FastlaneCore::ConfigItem.new(key: :release_name,
+                                      env_name: "SUPPLY_RELEASE_NAME",
+                                      short_option: "-N",
+                                      optional: true,
+                                      description: "The name of the release shown in the play console under the track (used when uploading new apks/aabs)",
+                                      default_value: "#{CredentialsManager::AppfileConfig.try_fetch_value(:version_code)} (#{CredentialsManager::AppfileConfig.try_fetch_value(:version_name)})",
+                                      default_value_dynamic: true,
+                                      type: String),
         FastlaneCore::ConfigItem.new(key: :track,
                                      short_option: "-a",
                                      env_name: "SUPPLY_TRACK",
