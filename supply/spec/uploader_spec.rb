@@ -30,6 +30,15 @@ describe Supply do
         end.to raise_error("No local metadata, apks, aab, or track to promote were found, make sure to run `fastlane supply init` to setup supply")
       end
 
+      it "raises error if only release_name" do
+        Supply.config = {
+          release_name: 'release name'
+        }
+        expect do
+          subject.verify_config!
+        end.to raise_error("No local metadata, apks, aab, or track to promote were found, make sure to run `fastlane supply init` to setup supply")
+      end
+
       it "does not raise error if only metadata" do
         Supply.config = {
           metadata_path: 'some/path'
@@ -173,7 +182,8 @@ describe Supply do
           release_status: Supply::ReleaseStatus::COMPLETED,
           track_promote_release_status: Supply::ReleaseStatus::COMPLETED,
           track: 'alpha',
-          track_promote_to: 'beta'
+          track_promote_to: 'beta',
+          release_name: 'release name'
         }
       }
       let(:track) { double('alpha') }
@@ -205,7 +215,12 @@ describe Supply do
 
     describe '#perform_upload' do
       let(:client) { double('client') }
-      let(:config) { { apk: 'some/path/app.apk' } }
+      let(:config) { 
+        { 
+          apk: 'some/path/app.apk',
+          release_name: 'release name'
+        } 
+      }
 
       before do
         Supply.config = config
