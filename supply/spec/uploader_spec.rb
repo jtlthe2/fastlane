@@ -215,11 +215,11 @@ describe Supply do
 
     describe '#perform_upload' do
       let(:client) { double('client') }
-      let(:config) { 
-        { 
+      let(:config) {
+        {
           apk: 'some/path/app.apk',
           release_name: 'release name'
-        } 
+        }
       }
 
       before do
